@@ -26,7 +26,7 @@ defmodule Calculator.RecordsTest do
 
       operation_params = %{param_1: 11, param_2: 31}
 
-      assert {:ok, %{operation_response: %{value: 42}}} =
+      assert {:ok, %{operation_response: %{value: "42"}}} =
                Records.create_user_record(user, %{
                  operation_id: operation.id,
                  operation_params: operation_params
