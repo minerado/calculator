@@ -11,6 +11,11 @@ defmodule CalculatorWeb.RecordController do
     with %User{} = user <- Guardian.Plug.current_resource(conn),
          {:ok, record} <- Records.create_user_record(user, params) do
       json(conn, %{record: Repo.preload(record, [:operation, :user])})
+    else
+      {:error, _} ->
+        conn
+        |> put_status(400)
+        |> json(%{message: "No Funds!"})
     end
   end
 
