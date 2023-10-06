@@ -34,7 +34,7 @@ defmodule CalculatorWeb.RecordController do
     with %User{} = user <- Guardian.Plug.current_resource(conn),
          opts <- Helpers.action_params_opts(params),
          records <- Records.list_user_records(user, opts),
-         records_count <- Records.count_user_records(user) do
+         records_count <- Records.count_user_records(user, opts) do
       json(conn, %{records: Repo.preload(records, [:operation, :user]), total: records_count})
     end
   end

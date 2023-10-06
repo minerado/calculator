@@ -22,8 +22,11 @@ defmodule Calculator.Records do
   end
 
   def count_user_records(%User{id: user_id}, opts \\ []) do
-    [user_id: user_id]
-    |> RecordQuery.build_query(opts)
+    filters = opts[:filters] || []
+
+    filters
+    |> Keyword.merge(user_id: user_id)
+    |> RecordQuery.build_query()
     |> Repo.aggregate(:count, :id)
   end
 
