@@ -11,7 +11,7 @@ defmodule Calculator.Accounts.User do
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
 
-  @derive {Jason.Encoder, only: [:email]}
+  @derive {Jason.Encoder, only: [:balance, :email, :status]}
 
   schema "users" do
     field(:email, :string)
