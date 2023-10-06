@@ -10,7 +10,7 @@ config :swoosh, local: false
 config :logger, level: :info
 
 config :cors_plug,
-  origin: [~r/^https?.*calculator-client-i3ta78y3d-minerado.vercel.app.*$/],
+  origin: [~r/^https?.*calculator-client-.*-minerado.vercel.app.*$/],
   max_age: 86400,
   methods: ["*"]
 
