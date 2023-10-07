@@ -1,18 +1,31 @@
 # Calculator
 
-To start your Phoenix server:
+## Local Development Setup
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+### Prerequisites
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+- Docker - Make sure you have Docker installed on your machine.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### Instalation
 
-## Learn more
+1. Clone the repository to your local machine:
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+`git clone https://github.com/minerado/calculator.git`
+
+2. Navigate to the project directory:
+
+`cd calculator`
+
+3. Setup the project
+
+`docker build --tag 'calculator' . `
+
+### Running the Development Server
+
+1. Start the development server:
+
+`docker run -v .:/app -p 4000:4000 calculator`
+
+This will launch the Elixir development server, and the api will be available at http://localhost:4000.
+
+2. Have fun!
