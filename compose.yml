@@ -1,8 +1,10 @@
 services:
-  calculator:
+  server:
     build: .
     ports:
       - "4000:4000"
 
     volumes:
       - .:/app
+      - /app/deps
+
