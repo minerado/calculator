@@ -19,7 +19,7 @@ defmodule Calculator.MixProject do
   def application do
     [
       mod: {Calculator.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :inets]
     ]
   end
 
