@@ -16,15 +16,11 @@
 
 `cd calculator`
 
-3. Setup the project
-
-`docker build --tag 'calculator' . `
-
 ### Running the Development Server
 
-1. Start the development server:
+1. Setup and start the development server:
 
-`docker run -v .:/app -p 4000:4000 calculator`
+`docker compose up`
 
 This will launch the Elixir development server, and the api will be available at http://localhost:4000.
 
