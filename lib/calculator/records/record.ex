@@ -65,16 +65,16 @@ defmodule Calculator.Records.Record do
            }
          } = changeset
        ) do
-    case Operations.get_operation(operation_id) do
-      nil ->
-        add_error(changeset, :operation_id, "Not found")
-
-      operation ->
-        operation
-        |> Operations.apply_operation(changes[:param_1], changes[:param_2])
-        |> to_string()
-        |> then(&put_change(changeset, :operation_response, %{value: &1}))
-        |> cast_embed(:operation_response)
+    with %Operation{} = operation <- Operations.get_operation(operation_id),
+         {:ok, result} <-
+           Operations.apply_operation(operation, changes[:param_1], changes[:param_2]),
+         result <- to_string(result) do
+      changeset
+      |> put_change(:operation_response, %{value: result})
+      |> cast_embed(:operation_response)
+    else
+      {:error, message} -> add_error(changeset, :operation_id, message)
+      _ -> add_error(changeset, :operation_id, "Operation not found")
     end
   end
 

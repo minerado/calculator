@@ -23,4 +23,11 @@ defmodule CalculatorWeb.Helpers do
   end
 
   defp build_filters(_), do: []
+
+  def get_current_user(conn) do
+    case Guardian.Plug.current_resource(conn) do
+      nil -> {:error, :unauthorized}
+      user -> {:ok, user}
+    end
+  end
 end

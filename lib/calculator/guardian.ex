@@ -13,8 +13,10 @@ defmodule Calculator.Guardian do
   end
 
   def resource_from_claims(%{"sub" => id}) do
-    resource = Accounts.get_user!(id)
-    {:ok, resource}
+    case Accounts.get_user(id) do
+      nil -> {:error, :not_found}
+      user -> {:ok, user}
+    end
   end
 
   def resource_from_claims(_claims) do

@@ -1,26 +1,22 @@
 defmodule CalculatorWeb.RecordController do
   use CalculatorWeb, :controller
 
-  alias Calculator.Accounts.User
   alias Calculator.Records
   alias Calculator.Records.Record
   alias Calculator.Repo
   alias CalculatorWeb.Helpers
 
+  action_fallback CalculatorWeb.FallbackController
+
   def create(conn, params) do
-    with %User{} = user <- Guardian.Plug.current_resource(conn),
+    with {:ok, user} <- Helpers.get_current_user(conn),
          {:ok, record} <- Records.create_user_record(user, params) do
       json(conn, %{record: Repo.preload(record, [:operation, :user])})
-    else
-      {:error, _} ->
-        conn
-        |> put_status(400)
-        |> json(%{message: "No Funds!"})
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    with %User{} <- Guardian.Plug.current_resource(conn),
+    with {:ok, _} <- Helpers.get_current_user(conn),
          %Record{} = record <- Records.get_record(id),
          {:ok, record} <- Records.delete_record(record) do
       json(conn, %{record: Repo.preload(record, [:operation, :user])})
@@ -28,7 +24,7 @@ defmodule CalculatorWeb.RecordController do
   end
 
   def update(conn, %{"id" => id} = params) do
-    with %User{} <- Guardian.Plug.current_resource(conn),
+    with {:ok, _} <- Helpers.get_current_user(conn),
          %Record{} = record <- Records.get_record(id),
          {:ok, record} <- Records.update_record(record, params) do
       json(conn, %{record: Repo.preload(record, [:operation, :user])})
@@ -36,7 +32,7 @@ defmodule CalculatorWeb.RecordController do
   end
 
   def index(conn, params) do
-    with %User{} = user <- Guardian.Plug.current_resource(conn),
+    with {:ok, user} <- Helpers.get_current_user(conn),
          opts <- Helpers.action_params_opts(params),
          records <- Records.list_user_records(user, opts),
          records_count <- Records.count_user_records(user, opts) do

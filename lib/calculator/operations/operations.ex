@@ -10,12 +10,28 @@ defmodule Calculator.Operations do
 
   def list_operations, do: Repo.all(Operation)
 
-  def apply_operation(%{type: :addition}, x1, x2), do: x1 + x2
-  def apply_operation(%{type: :subtraction}, x1, x2), do: x1 - x2
-  def apply_operation(%{type: :multiplication}, x1, x2), do: x1 * x2
-  def apply_operation(%{type: :division}, x1, x2), do: x1 / x2
-  def apply_operation(%{type: :square_root}, x1, _x2), do: :math.sqrt(x1)
-  def apply_operation(%{type: :random_string}, _x1, _x2), do: random_string()
+  def apply_operation(%{type: :addition}, x1, x2) when is_number(x1) and is_number(x2) do
+    {:ok, x1 + x2}
+  end
+
+  def apply_operation(%{type: :subtraction}, x1, x2) when is_number(x1) and is_number(x2) do
+    {:ok, x1 - x2}
+  end
+
+  def apply_operation(%{type: :multiplication}, x1, x2) when is_number(x1) and is_number(x2) do
+    {:ok, x1 * x2}
+  end
+
+  def apply_operation(%{type: :division}, x1, x2) when is_number(x1) and is_number(x2) do
+    {:ok, x1 / x2}
+  end
+
+  def apply_operation(%{type: :square_root}, x1, _x2) when is_number(x1) do
+    {:ok, :math.sqrt(x1)}
+  end
+
+  def apply_operation(%{type: :random_string}, _x1, _x2), do: {:ok, random_string()}
+  def apply_operation(_, _x1, _x2), do: {:error, "Invalid Operation"}
 
   def random_string do
     case :httpc.request(@string_generator_endpoint) do
