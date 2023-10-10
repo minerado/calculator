@@ -30,4 +30,8 @@ defmodule CalculatorWeb.Helpers do
       user -> {:ok, user}
     end
   end
+
+  def test do
+    1
+  end
 end
